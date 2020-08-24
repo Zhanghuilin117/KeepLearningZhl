@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,19 +13,21 @@
             padding: 10px;
             height: 200px;
         }
+        
         .item {
             background-color: #ccc;
         }
-
-        .container-1{
+        
+        .container-1 {
             text-align: center;
             line-height: 200px;
             height: 200px;
         }
-
+        
         .container-2 {
             position: relative;
         }
+        
         .container-2 .item {
             width: 300px;
             height: 100px;
@@ -34,10 +37,11 @@
             top: 50%;
             margin-top: -50px;
         }
-
+        
         .container-3 {
             position: relative;
         }
+        
         .container-3 .item {
             width: 200px;
             height: 80px;
@@ -46,10 +50,11 @@
             top: 50%;
             transform: translate(-50%, -50%)
         }
-
+        
         .container-4 {
             position: relative;
         }
+        
         .container-4 .item {
             width: 100px;
             height: 50px;
@@ -60,8 +65,15 @@
             right: 0;
             margin: auto;
         }
+        
+        .container-5 {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
     </style>
 </head>
+
 <body>
     <div class="container container-1">
         <span>一段文字</span>
@@ -84,5 +96,12 @@
             this is item
         </div>
     </div>
+
+    <div class="container container-5">
+        <div class="item">
+            this is item
+        </div>
+    </div>
 </body>
+
 </html>
