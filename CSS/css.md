@@ -1,20 +1,34 @@
 # CSS
 
-### 1. 盒模型的宽度如何计算？
+[1. 盒模型的宽度如何计算？](#pro1)  
+[2. margin 纵向重叠问题](#pro2)  
+[3. margin 负值问题](#pro3)  
+[4. BFC 是什么？如何应用？](#pro4)
+[5. float](#pro5)  
+[6. flex 实现一个三点的色子](#pro6)
+[7. absolute 和 relative 分别依据什么定位？](#pro7)  
+[8. 居中对齐有哪些实现方式？](#pro8)  
+[9. line-height 如何继承](#pro9)  
+[10. rem 是什么？](#pro10)  
+[11. CSS-响应式-ww/vh](#pro11)
+
+<br>
+
+<h3 id="pro1">1. 盒模型的宽度如何计算？</h3>
 
 offsetWidth = 内容宽度 width + 内边框 border + 内边距 padding，不包括外边距。  
 如果要让 offfsetWidth 的值等于 width，设置 box-sizing:border-box;
 
 <br>
 
-### 2. margin 纵向重叠问题
+<h3 id="pro2">2. margin 纵向重叠问题</h3>
 
 - 相邻元素的 margin-top 和 margin-bottom 会发生重叠
 - 空白内容也会重叠
 
 <br>
 
-### 3. margin 负值问题
+<h3 id="pro3">3. margin 负值问题</h3>
 
 - margin-top 和 margin-left 负值，元素向上、向左移动
 - margin-right 负值，右侧元素左移，自身不受影响
@@ -22,7 +36,7 @@ offsetWidth = 内容宽度 width + 内边框 border + 内边距 padding，不包
 
 <br>
 
-### 4. BFC 是什么？如何应用？
+<h3 id="pro4"> 4. BFC 是什么？如何应用？</h3>
 
 - Block format context，块级格式化上下文块独立渲染区域，内部元素的渲染不会影响边界以外的元素
 - 形成 BFC 的常见条件
@@ -32,7 +46,7 @@ offsetWidth = 内容宽度 width + 内边框 border + 内边距 padding，不包
 
 <br>
 
-### 5. float
+<h3 id="pro5">5. float</h3>
 
 - 如何实现圣杯布局和双飞翼布局
   - 圣杯布局和双飞翼布局的技术总结:
@@ -50,7 +64,7 @@ offsetWidth = 内容宽度 width + 内边框 border + 内边距 padding，不包
 
 <br>
 
-### 6. flex 实现一个三点的色子
+<h3 id="pro6">6. flex 实现一个三点的色子</h3>
 
 align-self 属性定义 flex 子项单独在侧轴（纵轴）方向上的对齐方式。
 align-items 属性定义 flex 子项在 flex 容器的当前行的侧轴（纵轴）方向上的对齐方式。  
@@ -59,7 +73,7 @@ align-items 是控制容器内的元素布局，而 align-self 则是控制自�
 
 <br>
 
-### 7. absolute 和 relative 分别依据什么定位？
+<h3 id="pro7">7. absolute 和 relative 分别依据什么定位？</h3>
 
 - relative 依据自身定位
 - absolute 依据最近一层的定位元素定位
@@ -67,7 +81,7 @@ align-items 是控制容器内的元素布局，而 align-self 则是控制自�
 
 <br>
 
-### 8. 居中对齐有哪些实现方式？
+<h3 id="pro8">8. 居中对齐有哪些实现方式？</h3>
 
 - 水平居中
   - inline 元素：text-align: center;
@@ -129,20 +143,39 @@ display: flex;
 justify-content: center;
 align-items: center;
 ```
-<br>
-
-### 9. line-height如何继承
-- 写具体数值，如30px，则继承该值（比较好理解）
-- 写比例，如2/1.5，则继承该比例（比较好理解）
-  - 父元素line-height: 1.5;则子元素的line-height等于font-size的值乘以1.5
-- 写百分比，如200%，则继承计算出来的值（考点）
-  - 父元素line-height: 200%;则子元素的line-height等于父元素的font-size的值乘以父元素的line-height的值
 
 <br>
 
-### 10. rem是什么？
+<h3 id="pro9">9. line-height 如何继承</h3>
+
+- 写具体数值，如 30px，则继承该值（比较好理解）
+- 写比例，如 2/1.5，则继承该比例（比较好理解）
+  - 父元素 line-height: 1.5;则子元素的 line-height 等于 font-size 的值乘以 1.5
+- 写百分比，如 200%，则继承计算出来的值（考点）
+  - 父元素 line-height: 200%;则子元素的 line-height 等于父元素的 font-size 的值乘以父元素的 line-height 的值
+
+<br>
+
+<h3 id="pro10">10. rem 是什么？</h3>
+
 - px，绝对长度单位，最常用
 - em，相对长度单位，相对于父元素，不常用
 - rem，相对长度单位，相对于根元素，常用于响应式布局
 
-> 响应式布局的常用方案: media-query，根据不同的屏幕宽度设置根元素font-size
+> 响应式布局的常用方案: media-query，根据不同的屏幕宽度设置根元素 font-size
+
+<br>
+
+<h3 id="pro11">11. CSS-响应式-ww/vh</h3>
+
+- rem 的弊端：“阶梯”性
+- 网页视口尺寸：
+  - window.screen.height //屏幕高度
+  - window.innerHeight //网页视口高度
+  - document.body.clientHeight //body 高度
+- vw/vh
+  - 1vh 网页视口高度的 1/100
+  - 1vw 网页视口宽度的 1/100
+  - vmax 取两者最大值;vmin 取两者最小值
+    > window.innerHeight = 100vh
+    > window.innerwidth = 100vw
