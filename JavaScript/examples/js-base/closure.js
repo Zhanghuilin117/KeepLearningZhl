@@ -16,6 +16,7 @@ function print(fn) {
     fn()
 }
 const a = 100
+
 function fn() {
     console.log(a)
 }

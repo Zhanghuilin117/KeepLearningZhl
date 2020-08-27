@@ -9,15 +9,21 @@
 
 <body>
     <script>
-        function aa() {
-            let a = 200;
-            return function() {
-                console.log(a);
+        function createCache() {
+            const data = {};
+            return {
+                get: function(key) {
+                    return data[key];
+                },
+                set: function(key, value) {
+                    return data[key] = value;
+                }
             }
+
         }
-        fn = aa();
-        let a = 300;
-        fn();
+        let a = createCache();
+        a.set("name", "jack");
+        console.log(a.get("name"));
     </script>
 </body>
 

@@ -138,6 +138,8 @@ a instanceof Array
 
 <h3 id="pro8">8. 手写一个简易的 jQuery，考虑插件和扩展性 </h3>
 
+不会，回来看！
+
 <br>
 
 <h3 id="pro9">9. class 的原型本质，怎么理解？ </h3>
@@ -154,15 +156,17 @@ a instanceof Array
 <h3 id="pro10">10.作用域和自由变量？ </h3>
 
 - 作用域
+
   - 全局作用域
   - 函数作用域
-  - 块级作用域 
+  - 块级作用域
 
-    ~~~  
+    ```
     if(true){
       let x = 100;
     }
     console.log(x) //会报错
+    ```
 
 - 自由变量
   - 一个变量在当前作用域没有定义，但被使用了
@@ -171,24 +175,92 @@ a instanceof Array
 
 <br>
 
-<h3 id="pro11">11. 闭包 </h3>
+<h3 id="pro11">11. 实际开发中闭包的应用场景，举例说明  </h3>
 
 > 闭包就是能够读取其他函数内部变量的函数。
-~~~
-function f1(){
-　　var n=999;
-　　function f2(){
-　　　　alert(n);
-　　}
-　　return f2;
+
+- 闭包作为函数返回值
+
+```
+函数作为返回值
+function create() {
+    const a = 100
+    return function () {
+        console.log(a)
+    }
 }
-　　var result=f1();
-　　result(); // 999
-~~~
 
-//所有的自由变量的查找，是在函数定义的地方，向上级作用域查找//不是在执行的地方！！
-this的不同应用场景，如何取值？  
-手写bind函数  
-实际开发中闭包的应用场景，举例说明   
-创建10个a标签，点击的时候弹出来对应的序号   
+const fn = create()
+const a = 200
+fn() // 100
+```
 
+- 函数作为函数被传递
+
+```
+// 函数作为参数被传递
+function print(fn) {
+    const a = 200
+    fn()
+}
+const a = 100
+function fn() {
+    console.log(a)
+}
+print(fn) // 100
+```
+
+> 所有的自由变量的查找，是在函数定义的地方，向上级作用域查找，不是在执行的地方！！!
+
+- 应用场景：使用闭包做一个隐藏数据的 api 工具
+
+```
+function createCache(){
+  const data={};
+  return {
+    set: function(key,value){
+      data[key]=value;
+    },
+    get: function(key){
+      return data[key];
+    }
+  }
+}
+const c = createCache()
+c.set('a', 100)
+console.log( c.get('a') )
+```
+
+<br>
+
+<h3 id="pro12">12. this的不同应用场景，如何取值？ </h3>
+
+> https://juejin.im/post/6844903496253177863
+
+this 永远指向最后调用它的那个对象！！！  
+箭头函数的 this 在定义的时候就确定，逐级向上查找找到最近的函数作用域的 this!!!
+
+<br>
+
+<h3 id="pro13">13. 手写 bind 函数   </h3>
+
+不会，回来看！  
+
+<br>
+
+<h3 id="pro14">14. 创建 10 个 a 标签，点击的时候弹出来对应的序号   </h3>
+涉及到作用域问题。
+
+```
+let a
+for (let i = 0; i < 10; i++) {
+    a = document.createElement('a')
+    a.innerHTML = i + '<br>'
+    a.addEventListener('click', function (e) {
+        e.preventDefault()
+        alert(i)
+    })
+    document.body.appendChild(a)
+}
+
+```
