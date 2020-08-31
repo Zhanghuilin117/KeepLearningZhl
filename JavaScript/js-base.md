@@ -8,7 +8,14 @@
 [6. 原型的理解](#pro6)  
 [7. 如何准确判断一个变量是不是数组？](#pro7)  
 [8. 手写一个简易的 jQuery，考虑插件和扩展性 ](#pro8)  
-[9. class 的原型本质，怎么理解？ ](#pro9)
+[9. class 的原型本质，怎么理解？ ](#pro9)  
+[10. 作用域和自由变量？ ](#pro10)  
+[11. 实际开发中闭包的应用场景，举例说明](#pro11)  
+[12. this 的不同应用场景，如何取值？](#pro12)  
+[13. 手写 bind 函数](#pro13)  
+[14. 创建 10 个 a 标签，点击的时候弹出来对应的序号](#pro14)  
+[15. 异步和同步的区别](#pro15)  
+[16. 手写用 Promise 加载一张图片](#pro16)
 
 <br>
 
@@ -61,33 +68,33 @@
 
 - 判断值类型和引用类型
 
-```
-if (typeof obj !== 'object' || obj == null) {
-    // obj 是 null ，或者不是对象和数组，直接返回
-        return obj
-    }
+```js
+if (typeof obj !== "object" || obj == null) {
+  // obj 是 null ，或者不是对象和数组，直接返回
+  return obj;
+}
 ```
 
 - 判断是数组还是对象
 
-```
+```js
 if (obj instanceof Array) {
-        result = []
-    } else {
-        result = {}
-    }
+  result = [];
+} else {
+  result = {};
+}
 ```
 
 - 递归
 
-```
- for (let key in obj) {
-        // 保证 key 不是原型的属性
-        if (obj.hasOwnProperty(key)) {
-            // 递归调用！！！
-            result[key] = deepClone(obj[key])
-        }
-    }
+```js
+for (let key in obj) {
+  // 保证 key 不是原型的属性
+  if (obj.hasOwnProperty(key)) {
+    // 递归调用！！！
+    result[key] = deepClone(obj[key]);
+  }
+}
 ```
 
 <br>
@@ -153,7 +160,7 @@ a instanceof Array
 
 <br>
 
-<h3 id="pro10">10.作用域和自由变量？ </h3>
+<h3 id="pro10">10. 作用域和自由变量？ </h3>
 
 - 作用域
 
@@ -161,11 +168,11 @@ a instanceof Array
   - 函数作用域
   - 块级作用域
 
-    ```
-    if(true){
+    ```js
+    if (true) {
       let x = 100;
     }
-    console.log(x) //会报错
+    console.log(x); //会报错
     ```
 
 - 自由变量
@@ -181,54 +188,54 @@ a instanceof Array
 
 - 闭包作为函数返回值
 
-```
-函数作为返回值
+```js
+// 函数作为返回值
 function create() {
-    const a = 100
-    return function () {
-        console.log(a)
-    }
+  const a = 100;
+  return function () {
+    console.log(a);
+  };
 }
 
-const fn = create()
-const a = 200
-fn() // 100
+const fn = create();
+const a = 200;
+fn(); // 100
 ```
 
 - 函数作为函数被传递
 
-```
+```js
 // 函数作为参数被传递
 function print(fn) {
-    const a = 200
-    fn()
+  const a = 200;
+  fn();
 }
-const a = 100
+const a = 100;
 function fn() {
-    console.log(a)
+  console.log(a);
 }
-print(fn) // 100
+print(fn); // 100
 ```
 
 > 所有的自由变量的查找，是在函数定义的地方，向上级作用域查找，不是在执行的地方！！!
 
 - 应用场景：使用闭包做一个隐藏数据的 api 工具
 
-```
-function createCache(){
-  const data={};
+```js
+function createCache() {
+  const data = {};
   return {
-    set: function(key,value){
-      data[key]=value;
+    set: function (key, value) {
+      data[key] = value;
     },
-    get: function(key){
+    get: function (key) {
       return data[key];
-    }
-  }
+    },
+  };
 }
-const c = createCache()
-c.set('a', 100)
-console.log( c.get('a') )
+const c = createCache();
+c.set("a", 100);
+console.log(c.get("a"));
 ```
 
 <br>
@@ -244,23 +251,60 @@ this 永远指向最后调用它的那个对象！！！
 
 <h3 id="pro13">13. 手写 bind 函数   </h3>
 
-不会，回来看！  
+不会，回来看！
 
 <br>
 
 <h3 id="pro14">14. 创建 10 个 a 标签，点击的时候弹出来对应的序号   </h3>
 涉及到作用域问题。
 
-```
-let a
+```js
+let a;
 for (let i = 0; i < 10; i++) {
-    a = document.createElement('a')
-    a.innerHTML = i + '<br>'
-    a.addEventListener('click', function (e) {
-        e.preventDefault()
-        alert(i)
-    })
-    document.body.appendChild(a)
+  a = document.createElement("a");
+  a.innerHTML = i + "<br>";
+  a.addEventListener("click", function (e) {
+    e.preventDefault();
+    alert(i);
+  });
+  document.body.appendChild(a);
+}
+```
+
+<br>
+
+<h3 id="pro15">15. 异步和同步的区别</h3>
+
+- 基于 JS 是单线程语言，即一次只执行一个任务。如果有多个任务，就必须排队，前面一个任务完成，再执行后面一个任务，以此类推。
+- 同步：在主线程上排队执行，只有前一个任务执行完毕，才能执行后一个任务。
+- 异步：不进入主线程而进入"任务队列"，只有等主线程任务执行完毕，"任务队列"开始通知主线程，请求执行任务，该任务才会进入主线程执行。
+  - 异步应用场景： - 网络请求，如 ajax 图片加载 - 定时任务，如 setTimeout
+    <br>
+
+<h3 id="pro16">16. 手写用 Promise加载一张图片</h3>
+
+promise 解决 callback hell 问题
+
+```js
+function loadImg(url){
+  return new Promise((resolve,reject)=>{
+    const img=document.createElement("img");
+    img.onload=()=>{
+      resolve(img);
+    }
+    img.onerror=()=>{
+      const err=`图片加载失败${url}`;
+      reject(img);
+    }
+  })
 }
 
+const url1="";
+const url2="";
+loadImg(url1).then(img=>{
+  console.log(img.width,img.height);
+  return loadImg(url2);
+}).then(img={
+  console.log(img.width,img.height);
+}).catch(ex => console.error(ex))
 ```

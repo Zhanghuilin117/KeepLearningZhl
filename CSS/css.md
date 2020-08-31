@@ -54,7 +54,7 @@ offsetWidth = 内容宽度 width + 内边框 border + 内边距 padding，不包
     2. 防止中间内容被两侧覆盖，一个用 padding -个用 margin
 - 手写 clearfix
 
-```
+```css
 .clearfix:after {
   content: "";
   display: table;
@@ -96,7 +96,7 @@ align-items 是控制容器内的元素布局，而 align-self 则是控制自�
     > 总结：
 - 行内元素水平垂直居中
 
-```
+```css
 height: 100px;
 text-align: center;
 line-height: 100px;
@@ -106,7 +106,7 @@ line-height: 100px;
 
 1. 已知宽高
 
-```
+```css
 width: 100px
 height: 100px;
 position: absolute;
@@ -118,16 +118,16 @@ margin-left: -50px;
 
 2. 不知宽高
 
-```
+```css
 position: absolute;
 top: 50%;
 left: 50%;
-transfrom: translate(-50%,-50%);//可能存在兼容性问题
+transfrom: translate(-50%,-50%); //可能存在兼容性问题
 ```
 
 3. 不知宽高
 
-```
+```css
 position: absolute;
 top: 0;
 left: 0;
@@ -138,7 +138,7 @@ margin: auto;//不存在兼容性问题
 
 4. 不知宽高
 
-```
+```css
 display: flex;
 justify-content: center;
 align-items: center;

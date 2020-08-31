@@ -1,5 +1,5 @@
 function loadImg(src) {
-    const p = new Promise(
+    return new Promise(
         (resolve, reject) => {
             const img = document.createElement('img')
             img.onload = () => {
@@ -12,7 +12,6 @@ function loadImg(src) {
             img.src = src
         }
     )
-    return p
 }
 
 // const url = 'https://img.mukewang.com/5a9fc8070001a82402060220-140-140.jpg'
