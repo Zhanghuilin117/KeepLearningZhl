@@ -9,21 +9,6 @@
 
 <body>
     <script>
-        function createCache() {
-            const data = {};
-            return {
-                get: function(key) {
-                    return data[key];
-                },
-                set: function(key, value) {
-                    return data[key] = value;
-                }
-            }
-
-        }
-        let a = createCache();
-        a.set("name", "jack");
-        console.log(a.get("name"));
     </script>
 </body>
 
