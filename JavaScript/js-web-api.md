@@ -82,9 +82,8 @@ console.log(list);
 
 <br>
 
-<h3 id="pro5">5. attr 和 property的区别</h3>
+<h3 id="pro5">5. 如何识别浏览器的类型</h3>
 
-- 如何识别浏览器的类型
 
 ```js
 const ua = navigator.userAgent;
@@ -157,5 +156,26 @@ xhr status
 ·2Xx-表示成功处理请求，如200
 ·3XX-需要重定向，浏览器直接跳转，如301302304
 ·4XX-客户端请求错误，如4044035XX-服务器端错误
+
+同源策略
+◆ajax请求时，浏览器要求当前网页和 server必须同源（安全）
+同源：协议、域名、端口，三者必须一致
+◆前端http://a.com：8080/；serverhttps://b.com/api/xxx
+
+加载图片 CSS s可无视同源策略
+< Img src=跨域的图片地址/>
+◆< link href=跨域的css地址/
+< script src=跨域的js地址></ script>
+◆<img/>可用于统计打点，可使用第三方统计服务
+◆<link/>< script>可使用CDN,CDN一般都是外域
+◆< script>可实现 JSONP
+
+◆所有的跨域，都必须经过 server端允许和配合
+◆未经 server端允许就实现跨域，说明浏览器有漏洞，危险信号
+
+JSONP
+◆< script>可绕过跨域限制
+◆服务器可以任意动态拼接数据返回
+◆所以，< script>就可以获得跨域的数据，只要服务端愿意返回
 
 
