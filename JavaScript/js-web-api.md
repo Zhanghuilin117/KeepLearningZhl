@@ -84,7 +84,6 @@ console.log(list);
 
 <h3 id="pro5">5. 如何识别浏览器的类型</h3>
 
-
 ```js
 const ua = navigator.userAgent;
 const ischrome = ua.indexof("Chrome");
@@ -146,36 +145,75 @@ function bindEvent(elem, type, selector, fn) {
 - 用 e.target 获取触发元素
 - 用 matches 来判断是否是触发元素
 
+<br>
 
-xhr. readyState
-0-（未初始化）还没有调用send0方法1-（载入）已调用 sendo方法，正在发送请求
-·2-（载入完成） sendo方法执行完成，已经接收到全部响应内容3-（交互）正在解析响应内容4-（完成）响应内容解析完成，可以在客户端调用
+<h3 id="pro9">9. 手写一个简易的ajax</h3>
 
+```js
+function ajax(url) {
+  const p = new Promise((resolve, reject) => {
+    const xhr = new XMLHttpRequest();
+    xhr.open("GET", url, true);
+    xhr.onreadystatechange = function () {
+      if (xhr.readyState === 4) {
+        if (xhr.status === 200) {
+          resolve(JSON.parse(xhr.responseText));
+        } else if (xhr.status === 404 || xhr.status === 500) {
+          reject(new Error("404 not found"));
+        }
+      }
+    };
+    xhr.send(null);
+  });
+  return p;
+}
 
-xhr status
-·2Xx-表示成功处理请求，如200
-·3XX-需要重定向，浏览器直接跳转，如301302304
-·4XX-客户端请求错误，如4044035XX-服务器端错误
+const url = "/data/test.json";
+ajax(url)
+  .then((res) => console.log(res))
+  .catch((err) => console.error(err));
+```
 
-同源策略
-◆ajax请求时，浏览器要求当前网页和 server必须同源（安全）
-同源：协议、域名、端口，三者必须一致
-◆前端http://a.com：8080/；serverhttps://b.com/api/xxx
+<br>
 
-加载图片 CSS s可无视同源策略
-< Img src=跨域的图片地址/>
-◆< link href=跨域的css地址/
-< script src=跨域的js地址></ script>
-◆<img/>可用于统计打点，可使用第三方统计服务
-◆<link/>< script>可使用CDN,CDN一般都是外域
-◆< script>可实现 JSONP
+<h3 id="pro10">10. xhr的几个状态码</h3>
 
-◆所有的跨域，都必须经过 server端允许和配合
-◆未经 server端允许就实现跨域，说明浏览器有漏洞，危险信号
+- xhr.readyState
 
-JSONP
-◆< script>可绕过跨域限制
-◆服务器可以任意动态拼接数据返回
-◆所以，< script>就可以获得跨域的数据，只要服务端愿意返回
+  - 0 -（未初始化）还没有调用 send() 方法
+  - 1 -（载入）已调用 send() 方法，正在发送请求
+  - 2 -（载入完成） send() 方法执行完成，已经接收到全部响应内容
+  - 3 -（交互）正在解析响应内容
+  - 4 -（完成）响应内容解析完成，可以在客户端调用
 
+- xhr.status
+  - 2XX - 表示成功处理请求，如 200
+  - 3XX - 需要重定向，浏览器直接跳转，如 301 302 304
+  - 4XX - 客户端请求错误，如 404 403
+  - 5XX - 服务器端错误
 
+<br>
+
+<h3 id="pro11">11. 同源策略</h3>
+
+- ajax 请求时，浏览器要求当前网页和 server 必须同源（安全）
+- 同源：协议、域名、端口，三者必须一致
+  - 前端 http://a.com：8080/；server https://b.com/api/xxx 不同源
+- 加载图片 CSS JS 可无视同源策略
+  - \<img src=跨域的图片地址 />
+  - \<link href=跨域的 css 地址 />
+  - \<script src=跨域的 js 地址></script>
+
+<br>
+
+<h3 id="pro12">12. 实现跨域的几种方式</h3>
+
+> 所有的跨域，都必须经过 server 端允许和配合  
+> 未经 server 端允许就实现跨域，说明浏览器有漏洞，危险信号
+
+- \<script>可实现 JSONP 跨域
+
+JSONP 原理
+\<script>可绕过跨域限制
+服务器可以任意动态拼接数据返回
+所以，\<script> 就可以获得跨域的数据，只要服务端愿意返回
