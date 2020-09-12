@@ -1,21 +1,18 @@
 # JavaScript Web API
 
-[1. typed 能判断哪些类型？](#pro1)  
-[2. 何时使用===何时使用==](#pro2)  
-[3. 值类型和引用类型的区别](#pro3)  
-[4. 手写深拷贝](#pro4)  
-[5. 类型转换，truly 和 falsely 变量](#pro5)  
-[6. 原型的理解](#pro6)  
-[7. 如何准确判断一个变量是不是数组？](#pro7)  
-[8. 手写一个简易的 jQuery，考虑插件和扩展性 ](#pro8)  
-[9. class 的原型本质，怎么理解？ ](#pro9)  
-[10. 作用域和自由变量？ ](#pro10)  
-[11. 实际开发中闭包的应用场景，举例说明](#pro11)  
-[12. this 的不同应用场景，如何取值？](#pro12)  
-[13. 手写 bind 函数](#pro13)  
-[14. 创建 10 个 a 标签，点击的时候弹出来对应的序号](#pro14)  
-[15. 异步和同步的区别](#pro15)  
-[16. 手写用 Promise 加载一张图片](#pro16)
+[1. DOM是哪种数据结构？](#pro1)  
+[2. DOM操作的常用API](#pro2)  
+[3. attr 和 property的区别](#pro3)  
+[4. 一次性插入多个DOM节点，考虑性能](#pro4)  
+[5. 如何识别浏览器的类型](#pro5)  
+[6. 手写通用的事件绑定函数](#pro6)  
+[7. 描述事件冒泡的流程](#pro7)  
+[8. 无限下拉图片列表，如何监听每个图片的点击 ](#pro8)  
+[9. 手写一个简易的ajax](#pro9)  
+[10. xhr的几个状态码 ](#pro10)  
+[11. 同源策略](#pro11)  
+[12. 实现跨域的几种方式](#pro12)  
+[13. CooKie locolStorage sessionStorage](#pro13)  
 
 <br>
 
@@ -217,3 +214,38 @@ JSONP 原理
 \<script>可绕过跨域限制
 服务器可以任意动态拼接数据返回
 所以，\<script> 就可以获得跨域的数据，只要服务端愿意返回
+
+<br>
+
+<h3 id="pro13">13. cookie  locolStorage sessionStorage</h3>
+
+网页刷新的时候，所有数据都会被清空，这时候就要用到本地存储的技术，前端本地存储的方式有三种，分别是cookie，localstorage和sessionStorage
+- cookie的缺点
+  - 存储大小，最大4KB
+  - http请求时需要发送到服务端，增加请求数据量
+  - 只能用 document.cookie= 来修改，太过简陋
+
+- localStorage 和 sessionStorage
+  - HTML5专门为存储而设计，最大可存5M
+  - API简单易用 setitem getItem
+  - 不会随着http请求被发送出去
+  > 区别：
+    - localStorage数据会永久存储，除非代码或手动删除
+    - sessionStorage数据只存在于当前会话，浏览器关闭则清空
+    - 一般用 localStorage会更多
+
+- 描述 cookie localStorage sessionStorage区别
+  - 生命周期
+    - cookie 可设置失效时间，没有设置的话，默认是关闭浏览器后失效
+    - localStorage 除非手动删除 否则永久保存
+    - sessionStorage 仅在当前网页会话下有效，关闭页面或浏览器后就会被清除
+  - 容量
+    - cookie只能存储4kb大小
+    - localStorage sessionStorage存储5Mb大小
+  - API易用性
+    - cookie原生API不友好，需要程序员自己封装
+    - localStorage sessionStorage有简单易用的API，亦可再次封装来对Object和Array有更好的支持
+  - 是否跟随http请求发送出去
+    - cookie 每次都会携带在HTTP头中，如果使用cookie保存过多数据会带来性能问题
+    - localStorage sessionStorage仅在客户端（即浏览器）中保存，不参与和服务器的通信
+

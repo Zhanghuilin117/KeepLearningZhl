@@ -1,6 +1,6 @@
 # JavaScript 基础
 
-[1. typed 能判断哪些类型？](#pro1)  
+[1. typeof 能判断哪些类型？](#pro1)  
 [2. 何时使用===何时使用==](#pro2)  
 [3. 值类型和引用类型的区别](#pro3)  
 [4. 手写深拷贝](#pro4)  
@@ -19,7 +19,7 @@
 
 <br>
 
-<h3 id="pro1">1. typed 能判断哪些类型？</h3>
+<h3 id="pro1">1. typeof 能判断哪些类型？</h3>
 
 - 所有的值类型
   - Number String Boolean Null Undefined Symbol
