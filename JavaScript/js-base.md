@@ -129,8 +129,9 @@ for (let key in obj) {
 
   - 当访问一个对象的某个属性时，会先在这个对象本身属性上查找，如果没有找到，则会去它的\_\_proto\_\_隐式原型上查找，即它的构造函数的 prototype，如果还没有找到就会再在构造函数的 prototype 的\_\_proto\_\_中查找，这样一层一层向上查找就会形成一个链式结构，我们称为原型链。
 
-  eg. Student 继承父类 People，xialuo 是 Student new 出来的实例，则这个原型链关系是：
-  xialuo.\_\_proto\_\_===Student.prototype, Student.prototype.\_\_proto\_\_===People.prototype,  
+  eg. Student 继承父类 People，xialuo 是 Student new 出来的实例，则这个原型链关系是：  
+  xialuo.\_\_proto\_\_===Student.prototype,  
+  Student.prototype.\_\_proto\_\_===People.prototype,  
   People.prototype.\_\_proto\_\_===Object.prototype,  
   Object.prototype.\_\_proto\_\_==null  
   !!!要会画原型图
@@ -247,6 +248,30 @@ console.log(c.get("a"));
 this 永远指向最后调用它的那个对象！！！  
 箭头函数的 this 在定义的时候就确定，逐级向上查找找到最近的函数作用域的 this!!!
 
+```js
+var name = "windowsName";
+var a = {
+  name: "Cherry",
+  fn: function () {
+    console.log(this.name); // Cherry
+  },
+};
+window.a.fn();
+```
+
+```js
+var name = "windowsName";
+var a = {
+  name: "Cherry",
+  fn: function () {
+    console.log(this.name); // windowsName
+  },
+};
+
+var f = a.fn;
+f(); //虽然将 a 对象的 fn 方法赋值给变量 f 了，但是没有调用，fn() 最后仍然是被 window 调用的。所以 this 指向的也就是 window。
+```
+
 <br>
 
 <h3 id="pro13">13. 手写 bind 函数   </h3>
@@ -279,32 +304,46 @@ for (let i = 0; i < 10; i++) {
 - 同步：在主线程上排队执行，只有前一个任务执行完毕，才能执行后一个任务。
 - 异步：不进入主线程而进入"任务队列"，只有等主线程任务执行完毕，"任务队列"开始通知主线程，请求执行任务，该任务才会进入主线程执行。
   - 异步应用场景： - 网络请求，如 ajax 图片加载 - 定时任务，如 setTimeout
-    <br>
+
+<br>
 
 <h3 id="pro16">16. 手写用 Promise加载一张图片</h3>
 
 promise 解决 callback hell 问题
 
 ```js
-function loadImg(url){
-  return new Promise((resolve,reject)=>{
-    const img=document.createElement("img");
-    img.onload=()=>{
+function loadImg(src) {
+  return new Promise((resolve, reject) => {
+    const img = document.createElement("img");
+    img.onload = () => {
       resolve(img);
-    }
-    img.onerror=()=>{
-      const err=`图片加载失败${url}`;
-      reject(img);
-    }
-  })
+    };
+    img.onerror = () => {
+      const err = new Error(`图片加载失败 ${src}`);
+      reject(err);
+    };
+    img.src = src;
+  });
 }
 
-const url1="";
-const url2="";
-loadImg(url1).then(img=>{
-  console.log(img.width,img.height);
-  return loadImg(url2);
-}).then(img={
-  console.log(img.width,img.height);
-}).catch(ex => console.error(ex))
+const url1 = "https://img.mukewang.com/5a9fc8070001a82402060220-140-140.jpg";
+const url2 = "https://img3.mukewang.com/5a9fc8070001a82402060220-100-100.jpg";
+
+loadImg(url1)
+  .then((img1) => {
+    console.log(img1.width);
+    return img1; // 普通对象
+  })
+  .then((img1) => {
+    console.log(img1.height);
+    return loadImg(url2); // promise 实例
+  })
+  .then((img2) => {
+    console.log(img2.width);
+    return img2;
+  })
+  .then((img2) => {
+    console.log(img2.height);
+  })
+  .catch((ex) => console.error(ex));
 ```
