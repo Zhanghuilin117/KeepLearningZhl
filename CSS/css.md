@@ -3,9 +3,9 @@
 [1. 盒模型的宽度如何计算？](#pro1)  
 [2. margin 纵向重叠问题](#pro2)  
 [3. margin 负值问题](#pro3)  
-[4. BFC 是什么？如何应用？](#pro4)
+[4. BFC 是什么？如何应用？](#pro4)  
 [5. float](#pro5)  
-[6. flex 实现一个三点的色子](#pro6)
+[6. flex 实现一个三点的色子](#pro6)  
 [7. absolute 和 relative 分别依据什么定位？](#pro7)  
 [8. 居中对齐有哪些实现方式？](#pro8)  
 [9. line-height 如何继承](#pro9)  
@@ -122,7 +122,7 @@ margin-left: -50px;
 position: absolute;
 top: 50%;
 left: 50%;
-transfrom: translate(-50%,-50%); //可能存在兼容性问题
+transfrom: translate(-50%, -50%); //可能存在兼容性问题
 ```
 
 3. 不知宽高
@@ -133,7 +133,7 @@ top: 0;
 left: 0;
 right: 0;
 bottom: 0;
-margin: auto;//不存在兼容性问题
+margin: auto; //不存在兼容性问题
 ```
 
 4. 不知宽高
@@ -166,7 +166,7 @@ align-items: center;
 
 <br>
 
-<h3 id="pro11">11. CSS-响应式-ww/vh</h3>
+<h3 id="pro11">11. CSS-响应式-vw/vh</h3>
 
 - rem 的弊端：“阶梯”性
 - 网页视口尺寸：

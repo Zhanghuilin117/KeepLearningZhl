@@ -1,11 +1,10 @@
 # JavaScript 异步进阶
 
-[1. JS如何执行？](#pro1)  
+[1. JS 如何执行？](#pro1)  
 [2. event loop（事件轮询）过程](#pro2)  
-[3. Promise的三种状态和 then catc](#pro3)  
+[3. Promise 的三种状态和 then catc](#pro3)  
 [4. async/ await 和 Promise 的关系](#pro4)  
-[5. 微任务和宏任务](#pro5)  
-
+[5. 微任务和宏任务](#pro5)
 
 <br>
 
@@ -26,34 +25,34 @@
 
 ```js
 async function async1() {
-  console.log("async1 start");
+  console.log("async1 start"); //2
   await async2(); // 这一句会同步执行，返回 Promise ，其中的 `console.log('async2')` 也会同步执行
-  console.log("async1 end"); // 上面有 await ，下面就变成了“异步”，类似 cakkback 的功能（微任务）
+  console.log("async1 end"); //6  上面有 await ，下面就变成了“异步”，类似 cakkback 的功能（微任务）
 }
 
 async function async2() {
-  console.log("async2");
+  console.log("async2"); //3
 }
 
-console.log("script start");
+console.log("script start"); //1
 
 setTimeout(function () {
   // 异步，宏任务
-  console.log("setTimeout");
+  console.log("setTimeout"); //8
 }, 0);
 
 async1();
 
 new Promise(function (resolve) {
   // 返回 Promise 之后，即同步执行完成，then 是异步代码
-  console.log("promise1"); // Promise 的函数体会立刻执行
+  console.log("promise1"); // 4  Promise 的函数体会立刻执行
   resolve();
 }).then(function () {
   // 异步，微任务
-  console.log("promise2");
+  console.log("promise2"); //7
 });
 
-console.log("script end");
+console.log("script end"); //5
 
 // 同步代码执行完之后，屡一下现有的异步未执行的，按照顺序
 // 1. async1 函数中 await 后面的内容 —— 微任务

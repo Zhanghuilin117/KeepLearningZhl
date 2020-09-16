@@ -9,55 +9,39 @@
 
 <body>
     <script>
-        // let xhr = new XMLHttpRequest()
-        // xhr.open("GET", "./test.json", true)
-        // xhr.onreadystatechange = function () {
-        //     if (xhr.readyState === 4) {
-        //         if (xhr.status === 200) {
-        //             console.log(xhr.responseText)
-        //         } else if (xhr.status === 404) {
-        //             console.log('404 not found')
-        //         }
-        //     }
-        // }
-        // xhr.send(null)
-        // const xhr = new XMLHttpRequest()
-        // xhr.open('GET', './test.json', true)
-        // xhr.onreadystatechange = function () {
-        //     if (xhr.readyState === 4) {
-        //         if (xhr.status === 200) {
-        //             // console.log(
-        //             //     JSON.parse(xhr.responseText)
-        //             // )
-        //             alert(xhr.responseText)
-        //         } else if (xhr.status === 404) {
-        //             console.log('404 not found')
-        //         }
-        //     }
-        // }
-        // xhr.send(null)
-
-        function ajax(url) {
-            return new Promise((resolve, reject) => {
-                const xhr = new XMLHttpRequest();
-                xhr.open("GET", url, true);
-                xhr.onreadystatechange = function () {
-                    if (xhr.readyState === 4) {
-                        if (xhr.status === 200) {
-                            resolve(xhr.responseText);
-                        } else if (xhr.status === 404) {
-                            reject(new Error('404 not found'));
-                        }
-                    }
-                }
-                xhr.send(null)
-            })
+        async function async1() {
+            console.log("async1 start");
+            await async2(); // 这一句会同步执行，返回 Promise ，其中的 `console.log('async2')` 也会同步执行
+            console.log("async1 end"); // 上面有 await ，下面就变成了“异步”，类似 cakkback 的功能（微任务）
         }
 
-        const url = '/data/test.json'
-        ajax(url)
-            .then(res => console.log(res))
-            .catch(err => console.error(err))
+        async function async2() {
+            console.log("async2");
+        }
+
+        console.log("script start");
+
+        setTimeout(function () {
+            // 异步，宏任务
+            console.log("setTimeout1");
+        }, 0);
+
+        setTimeout(function () {
+            // 异步，宏任务
+            console.log("setTimeout2");
+        }, 0);
+        async1();
+
+        new Promise(function (resolve) {
+            // 返回 Promise 之后，即同步执行完成，then 是异步代码
+            console.log("promise1"); // Promise 的函数体会立刻执行
+            resolve();
+        }).then(function () {
+            // 异步，微任务
+            console.log("promise2");
+        });
+
+        console.log("script end");
     </script>
 </body>
 
