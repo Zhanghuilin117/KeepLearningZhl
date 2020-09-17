@@ -18,7 +18,16 @@
 
 <h3 id="pro2">2. event loop（事件轮询）过程</h3>
 
-> 同步代码，一行一行放在 Call Stack（调用栈）执行。当 Stack 中执行到微任务的时候就放在 Micro Task Queue（微任务队列），执行到宏任务的时候就将他丢给 WebAPIs，接着执行同步任务，直到 Stack 为空。在此期间 WebAPIs 完成这个事件，把回调函数放入 Callback Queue 中等待。当 Stack 为空，会去判断微任务队列中是否有微任务，如果有，将它们逐一执行。微任务队列为空，会尝试 DOM 渲染。DOM 渲染结束，event loop 开始工作，轮询查找 macro task。然后继续轮询查找（永动机一样）。
+1. 执行所有同步代码，依次放入 call stack（调用栈）中执行。当 Stack 中执行到微任务的时候就放在 Micro Task Queue（微任务队列），执行到宏任务的时候就将他丢给 WebAPIs，接着执行同步任务；
+2. 全局 Script 代码执行完毕后，调用栈 Stack 会清空；
+3. 从微队列 microtask queue 中取出位于队首的回调任务，放入调用栈 Stack 中执行，执行完后 microtask queue 长度减 1；
+4. 继续取出位于队首的任务，放入调用栈 Stack 中执行，以此类推，直到直到把 microtask queue 中的所有任务都执行完毕。注意，如果在执行 microtask 的过程中，又产生了 microtask，那么会加入到队列的末尾，也会在这个周期被调用执行；
+5. microtask queue 中的所有任务都执行完毕，此时 microtask queue 为空队列，调用栈 Stack 也为空；
+6. 取出宏队列 macrotask queue 中位于队首的任务，放入 Stack 中执行；
+7. 执行完毕后，调用栈 Stack 为空；
+8. 重复第 3-7 个步骤；
+9. 重复第 3-7 个步骤；
+   ......
 
 执行顺序问题:
 网上很经典的面试题
@@ -59,6 +68,35 @@ console.log("script end"); //5
 // 2. setTimeout —— 宏任务
 // 3. then —— 微任务
 ```
+
+```js
+setImmediate(function () {
+  console.log(1);
+}, 0);
+setTimeout(function () {
+  console.log(2);
+}, 0);
+new Promise(function (resolve) {
+  console.log(3);
+  resolve();
+  console.log(4);
+}).then(function () {
+  console.log(5);
+});
+console.log(6);
+process.nextTick(function () {
+  console.log(7);
+});
+console.log(8);
+
+// 答案是：3 4 6 8 7 5 2 1
+```
+
+总结：
+
+1. 同步代码执行顺序优先级高于异步代码执行顺序优先级；
+2. new Promise(fn)中的 fn 是同步执行；
+3. process.nextTick() > Promise.then() > setTimeout > setImmediate;
 
 <br>
 

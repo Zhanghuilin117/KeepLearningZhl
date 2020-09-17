@@ -1,18 +1,18 @@
 # JavaScript Web API
 
-[1. DOM是哪种数据结构？](#pro1)  
-[2. DOM操作的常用API](#pro2)  
-[3. attr 和 property的区别](#pro3)  
-[4. 一次性插入多个DOM节点，考虑性能](#pro4)  
+[1. DOM 是哪种数据结构？](#pro1)  
+[2. DOM 操作的常用 API](#pro2)  
+[3. attr 和 property 的区别](#pro3)  
+[4. 一次性插入多个 DOM 节点，考虑性能](#pro4)  
 [5. 如何识别浏览器的类型](#pro5)  
 [6. 手写通用的事件绑定函数](#pro6)  
 [7. 描述事件冒泡的流程](#pro7)  
 [8. 无限下拉图片列表，如何监听每个图片的点击 ](#pro8)  
-[9. 手写一个简易的ajax](#pro9)  
-[10. xhr的几个状态码 ](#pro10)  
+[9. 手写一个简易的 ajax](#pro9)  
+[10. xhr 的几个状态码 ](#pro10)  
 [11. 同源策略](#pro11)  
 [12. 实现跨域的几种方式](#pro12)  
-[13. CooKie locolStorage sessionStorage](#pro13)  
+[13. CooKie locolStorage sessionStorage](#pro13)
 
 <br>
 
@@ -102,6 +102,8 @@ console.log(location.post); //返回URL中的指定的端口号，如URL中不�
 <br>
 
 <h3 id="pro6">6. 手写通用的事件绑定函数</h3>
+
+不熟悉
 
 ```js
 function bindEvent(elem, type, selector, fn) {
@@ -219,33 +221,35 @@ JSONP 原理
 
 <h3 id="pro13">13. cookie  locolStorage sessionStorage</h3>
 
-网页刷新的时候，所有数据都会被清空，这时候就要用到本地存储的技术，前端本地存储的方式有三种，分别是cookie，localstorage和sessionStorage
-- cookie的缺点
-  - 存储大小，最大4KB
-  - http请求时需要发送到服务端，增加请求数据量
+网页刷新的时候，所有数据都会被清空，这时候就要用到本地存储的技术，前端本地存储的方式有三种，分别是 cookie，localstorage 和 sessionStorage
+
+- cookie 的缺点
+
+  - 存储大小，最大 4KB
+  - http 请求时需要发送到服务端，增加请求数据量
   - 只能用 document.cookie= 来修改，太过简陋
 
 - localStorage 和 sessionStorage
-  - HTML5专门为存储而设计，最大可存5M
-  - API简单易用 setitem getItem
-  - 不会随着http请求被发送出去
-  > 区别：
-    - localStorage数据会永久存储，除非代码或手动删除
-    - sessionStorage数据只存在于当前会话，浏览器关闭则清空
-    - 一般用 localStorage会更多
 
-- 描述 cookie localStorage sessionStorage区别
+  - HTML5 专门为存储而设计，最大可存 5M
+  - API 简单易用 setitem getItem
+  - 不会随着 http 请求被发送出去
+    > 区别：
+    - localStorage 数据会永久存储，除非代码或手动删除
+    - sessionStorage 数据只存在于当前会话，浏览器关闭则清空
+    - 一般用 localStorage 会更多
+
+- 描述 cookie localStorage sessionStorage 区别
   - 生命周期
     - cookie 可设置失效时间，没有设置的话，默认是关闭浏览器后失效
     - localStorage 除非手动删除 否则永久保存
     - sessionStorage 仅在当前网页会话下有效，关闭页面或浏览器后就会被清除
   - 容量
-    - cookie只能存储4kb大小
-    - localStorage sessionStorage存储5Mb大小
-  - API易用性
-    - cookie原生API不友好，需要程序员自己封装
-    - localStorage sessionStorage有简单易用的API，亦可再次封装来对Object和Array有更好的支持
-  - 是否跟随http请求发送出去
-    - cookie 每次都会携带在HTTP头中，如果使用cookie保存过多数据会带来性能问题
-    - localStorage sessionStorage仅在客户端（即浏览器）中保存，不参与和服务器的通信
-
+    - cookie 只能存储 4kb 大小
+    - localStorage sessionStorage 存储 5Mb 大小
+  - API 易用性
+    - cookie 原生 API 不友好，需要程序员自己封装
+    - localStorage sessionStorage 有简单易用的 API，亦可再次封装来对 Object 和 Array 有更好的支持
+  - 是否跟随 http 请求发送出去
+    - cookie 每次都会携带在 HTTP 头中，如果使用 cookie 保存过多数据会带来性能问题
+    - localStorage sessionStorage 仅在客户端（即浏览器）中保存，不参与和服务器的通信
