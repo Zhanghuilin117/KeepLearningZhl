@@ -15,7 +15,10 @@
 [13. 手写 bind 函数](#pro13)  
 [14. 创建 10 个 a 标签，点击的时候弹出来对应的序号](#pro14)  
 [15. 异步和同步的区别](#pro15)  
-[16. 手写用 Promise 加载一张图片](#pro16)
+[16. 手写用 Promise 加载一张图片](#pro16)  
+[17. var 和 let const 的区别](#pro17)
+[18. 手写深度比较，模拟 lodash isequal](#pro18)
+[19. 数组的 pop push unshift shift 分别是什么](#pro19)
 
 <br>
 
@@ -105,6 +108,9 @@ for (let key in obj) {
 
 - truly 变量：!!a===true 的变量
 - falsely 变量：!!a=== false 的变量
+- 列举强制类型转换和隐式类型转换
+  - 强制：parseInt parseFloat toString 等
+  - 隐式：if、逻辑运算、==、+ 拼接字符串
 
 <br>
 
@@ -185,7 +191,10 @@ a instanceof Array
 
 <h3 id="pro11">11. 实际开发中闭包的应用场景，举例说明  </h3>
 
-> 闭包就是能够读取其他函数内部变量的函数。
+- 闭包的概念：能够读取其他函数内部变量的函数。
+- 闭包的作用：访问函数内部变量、保持函数在环境中一直存在，不会被垃圾回收机制处理。
+- 闭包的优点：方便调用上下文中声明的局部变量；逻辑紧密，可以在一个函数中再创建个函数，避免了传参的问题。
+- 闭包的缺点：因为使用闭包，可以使函数在执行完后不被销毁，保留在内存中，如果大量使用闭包就会造成内存泄露，内存消耗很大。
 
 - 闭包作为函数返回值
 
@@ -347,3 +356,134 @@ loadImg(url1)
   })
   .catch((ex) => console.error(ex));
 ```
+
+<br>
+
+<h3 id="pro17">17. var和 let const的区别</h3>
+
+- var 是 ES5 语法，let const 是 ES6 语法；var 有变量提升
+
+```js
+console.log(a); //undefined
+var a = 200;
+===>相当于
+var a;
+console.log(a);
+a = 200;
+```
+
+- var 和 let 是变量，可修改；const 是常量，不可修改
+- let const 有块级作用域，var 没有
+
+```js
+for (var i = 0; i < 10; i++) {
+  var j = i + 1;
+}
+console.log(i, j); // 10 10
+
+for (let i = 0; i < 10; i++) {
+  let j = i + 1;
+}
+console.log(i, j); // 报错
+```
+
+<br>
+
+<h3 id="pro18">18. 手写深度比较，模拟 lodash isequal</h3>
+
+```js
+// 判断是否是对象或数组
+function isObject(obj) {
+  return typeof obj === "object" && obj !== null;
+}
+// 全相等（深度）
+function isEqual(obj1, obj2) {
+  if (!isObject(obj1) || !isObject(obj2)) {
+    // 值类型（注意，参与 equal 的一般不会是函数）
+    return obj1 === obj2;
+  }
+  if (obj1 === obj2) {
+    return true;
+  }
+  // 两个都是对象或数组，而且不相等
+  // 1. 先取出 obj1 和 obj2 的 keys ，比较个数
+  const obj1Keys = Object.keys(obj1);
+  const obj2Keys = Object.keys(obj2);
+  if (obj1Keys.length !== obj2Keys.length) {
+    return false;
+  }
+  // 2. 以 obj1 为基准，和 obj2 一次递归比较
+  for (let key in obj1) {
+    // 比较当前 key 的 val —— 递归！！！
+    const res = isEqual(obj1[key], obj2[key]);
+    if (!res) {
+      return false;
+    }
+  }
+  // 3. 全相等
+  return true;
+}
+
+// 测试
+const obj1 = {
+  a: 100,
+  b: {
+    x: 100,
+    y: 200,
+    z: 300,
+  },
+};
+const obj2 = {
+  a: 100,
+  b: {
+    x: 100,
+    y: 200,
+  },
+};
+// console.log( obj1 === obj2 )
+console.log(isEqual(obj1, obj2));
+```
+
+<br>
+
+<h3 id="pro19">19. 数组的 pop push unshift shift 分别是什么</h3>
+
+从以下几个方面回答：
+
+- 功能是什么？
+- 返回值是什么？
+- 是否会对原数组造成影响？
+
+1. pop
+   array.pop() 从数组中删除最后一个元素，并返回该元素的值，数组长度减 1
+
+2. push
+   array.push() 将一个或多个元素添加到数组的末尾，并返回该数组的新长度，数组长度增 1
+
+3. unshift
+   array.unshift() 将一个或多个元素添加到数组的开头，并返回该数组的新长度，数组长度增 1
+
+4. shift()
+   array.unshift()从数组中删除第一个元素，并返回该元素的值，数组长度减 1
+
+<br>
+
+<h3 id="pro20">20. [10, 20, 30].map(parseInt)返回什么</h3>
+
+```js
+const res = [10, 20, 30].map(parseInt);
+console.log(res); //[10, NaN, NaN]
+
+// 拆解
+[10, 20, 30].map((num, index) => {
+  return parseInt(num, index);
+});
+```
+
+<br>
+
+<h3 id="pro21">21. 函数声明和函数表达式的区别</h3>
+
+<br>
+
+<h3 id="pro22">22. new Object() 和 Object create() 的区别</h3>
