@@ -17,8 +17,16 @@
 [15. 异步和同步的区别](#pro15)  
 [16. 手写用 Promise 加载一张图片](#pro16)  
 [17. var 和 let const 的区别](#pro17)
-[18. 手写深度比较，模拟 lodash isequal](#pro18)
-[19. 数组的 pop push unshift shift 分别是什么](#pro19)
+[18. 手写深度比较，模拟 lodash isequal](#pro18)  
+[19. 数组的 pop push unshift shift 分别是什么](#pro19)  
+[20. [10,20,30].map(parseInt)返回什么](#pro20)  
+[21. 函数声明和函数表达式的区别](#pro21)  
+[22. new Object0 和 Object create0 的区别](#pro22)  
+[23. 手写字符串 trim 保证浏览器兼容性](#pro23)  
+[24. 获取当前页面 URL 的参数](#pro24)  
+[25. 获取当前页面 URL 的参数](#pro25)  
+[26. 将 ur 参数转换成 js 对象](#pro26)  
+[27. 是否使用过 requestAnimationFrame(RAF)](#pro27)
 
 <br>
 
@@ -484,6 +492,178 @@ console.log(res); //[10, NaN, NaN]
 
 <h3 id="pro21">21. 函数声明和函数表达式的区别</h3>
 
+- 函数声明：function fn() {...}
+- 函数表达式：const fn = function () {...}
+- 函数声明会在代码执行前预加载，而函数表达式不会
+
+```js
+// 函数声明
+const res = sum(10, 20)
+console.log(res) // 30
+
+function sum(num1, num2) {
+    return num1 + num2
+}
+----------------------
+// 函数表达式
+const res = sum(10, 20)
+console.log(res) // 报错：Uncaught ReferenceError: Cannot access 'sum' before initialization
+
+const sum = function(num1, num2) {
+    return num1 + num2
+}
+```
+
 <br>
 
 <h3 id="pro22">22. new Object() 和 Object create() 的区别</h3>
+
+Object.create() 创建一个空对象，Object.create(obj) 把创建的空对象的原型设置为 obj
+
+- {} 等同于 new Object() , 原型是 Object.prototype
+- Object.create(null) 没有原型
+- Object.create({...}) 可以指定原型
+
+<br>
+
+<h3 id="pro23">23. 手写字符串trim保证浏览器兼容性</h3>
+
+```js
+String.prototype.trim = function () {
+  return this.replace(/^\s+/, "").replace(/\s+$/, "");
+};
+let str1 = "   a sd   ";
+let str2 = str1.trim();
+console.log(str1, str1.length); //   a sd    10
+console.log(str2, str2.length); //a sd 4
+```
+
+<br>
+
+<h3 id="pro24">24. 获取当前页面 URL 的参数</h3>
+
+```js
+// // 传统方式
+function query(name) {
+  const search = location.search.substr(1); // 类似 array.slice(1)
+  // search: 'a=10&b=20&c=30'
+  const reg = new RegExp(`(^|&)${name}=([^&]*)(&|$)`, "i");
+  const res = search.match(reg);
+  if (res === null) {
+    return null;
+  }
+  return res[2];
+}
+console.log(query("a")); //10
+
+// URLSearchParams
+function query(name) {
+  const search = location.search;
+  const p = new URLSearchParams(search);
+  return p.get(name);
+}
+console.log(query("b")); //20
+```
+
+<br>
+
+<h3 id="pro25">25. 数组去重</h3>
+
+```js
+// // 传统方式
+function unique(arr) {
+  const res = [];
+  arr.forEach((item) => {
+    if (res.indexOf(item) < 0) {
+      res.push(item);
+    }
+  });
+  return res;
+}
+
+// 使用 Set （无序，不能重复）
+function unique(arr) {
+  const set = new Set(arr);
+  return [...set];
+}
+
+const res = unique([30, 10, 20, 30, 40, 10]);
+console.log(res); //[30, 10, 20, 40]
+```
+
+<br>
+
+<h3 id="pro26">26. 将 url 参数转换成 js 对象</h3>
+
+> https://www.cnblogs.com/aurora-ql/p/13657820.html
+
+```js
+// 传统方式，分析 search
+function queryToObj() {
+  const res = {};
+  const search = location.search.substr(1); // 去除 ?
+  search.split("&").forEach((paramsStr) => {
+    const arr = paramsStr.split("=");
+    const key = arr[0];
+    const value = arr[1];
+    res[key] = value;
+  });
+  return res;
+}
+
+// URLSearchParams
+function queryToObj() {
+  const res = {};
+  const paramsList = new URLSearchParams(location.search);
+  paramsList.forEach((val, key) => {
+    res[key] = val;
+  });
+  return res;
+}
+```
+
+<br>
+
+<h3 id="pro27">27. 是否使用过 requestAnimationFrame（RAF）</h3>
+
+- 想要动画流畅，更新频率要 60 帧/s，即 16.7ms 更新一次视图
+- setTimeout 需要手动控制频率，而使用 RAF 浏览器会自动控制
+- 后台标签或者隐藏在 frame 标签中， RAF 会自动停止，但 setTimeout 不会自动停止
+
+```html
+<style>
+  #div1 {
+    width: 100px;
+    height: 50px;
+    background-color: red;
+  }
+</style>
+<div id="div1"></div>
+
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script>
+  // 3s 把宽度从 100px 变为 640px， 即增加 540px
+  // 60帧/s 3s 180帧 每次增加 3px
+  const $div = $("#div1");
+  let curWidth = 100;
+  const maxWidth = 640;
+
+  // function animation() {
+  // curWidth = curWidth + 3
+  // $div1.css('width', curWidth)
+  // if (curWidth < maxWidth) {
+  //   // 自己控制时间
+  //  setTimeout(animation, 16.7)
+  // }
+  // }
+
+  function animation() {
+    curWidth = curWidth + 3;
+    $div1.css("width", curWidth);
+    if (curWidth < maxWidth) {
+      window.requestAnimationFrame(animation);
+    }
+  }
+  animation();
+</script>
+```

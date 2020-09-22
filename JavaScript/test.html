@@ -9,13 +9,18 @@
 
 <body>
     <script>
-        const res = [10, 20, 30].map(parseInt)
-        console.log(res) //[10, NaN, NaN]
-
-        // 拆解
-        [10, 20, 30].map((num, index) => {
-            return parseInt(num, index)
-        })
+        // URLSearchParams
+        function queryToObj() {
+            const res = {}
+            const paramsList = new URLSearchParams('a=1&b=2&c=3')
+            console.log(paramsList);
+            paramsList.forEach((val, key) => {
+                console.log(val, key);
+                res[key] = val
+            })
+            return res
+        }
+        console.log(queryToObj());
     </script>
 </body>
 
