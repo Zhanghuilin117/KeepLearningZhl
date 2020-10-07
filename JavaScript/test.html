@@ -5,22 +5,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <style>
+        .div1 {
+            width: 0;
+            height: 0;
+            border-width: 100px;
+            border-style: solid;
+            border-color: transparent transparent red transparent;
+        }
+    </style>
 </head>
 
 <body>
+    <div class="div1">
+
+    </div>
+
     <script>
-        // URLSearchParams
-        function queryToObj() {
-            const res = {}
-            const paramsList = new URLSearchParams('a=1&b=2&c=3')
-            console.log(paramsList);
-            paramsList.forEach((val, key) => {
-                console.log(val, key);
-                res[key] = val
-            })
-            return res
-        }
-        console.log(queryToObj());
+
     </script>
 </body>
 

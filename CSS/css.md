@@ -11,6 +11,7 @@
 [9. line-height 如何继承](#pro9)  
 [10. rem 是什么？](#pro10)  
 [11. CSS-响应式-ww/vh](#pro11)
+[12. 画一个三角形？](#pro12)
 
 <br>
 
@@ -179,3 +180,18 @@ align-items: center;
   - vmax 取两者最大值;vmin 取两者最小值
     > window.innerHeight = 100vh
     > window.innerwidth = 100vw
+
+<br>
+
+<h3 id="pro12">12. 画一个三角形？</h3>
+
+```css
+.div1 {
+  width: 0;
+  height: 0;
+  border-width: 100px;
+  border-style: solid;
+  border-color: transparent transparent red transparent;
+}
+<div class="div1"></div>
+```
