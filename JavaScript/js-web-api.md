@@ -26,8 +26,8 @@ DOM 是一种树形结构的数据结构
 <h3 id="pro2">2. DOM操作的常用API</h3>
 
 - 获取页面元素 API
-  - 根据 id 获取元素 document.getElementById('div1') 该方法的参数是大小写敏感的
-  - 根据类名获取元素 document.getElementsByClassName('div1 div2') 参数可以是多个 class，它们之间使用空格分隔
+  - 根据 id 获取元素 document.getElementById('div1') 该方法的参数是大小写敏感的 没有#
+  - 根据类名获取元素 document.getElementsByClassName('div1 div2') 参数可以是多个 class，它们之间使用空格分隔 没有.
   - 根据选择器获取元素 document.querySelect('.myClass') document.querySelectorAll('.myClass')
   - 根据标签名获取元素 document.getElementsByTagName('div')
   - 根据 name 获取元素 document.getElementsByName('div1')
