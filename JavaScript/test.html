@@ -22,41 +22,11 @@
     </div>
 
     <script>
-        function sumStrings(num1, num2) {
-            //补零a和b对齐
-            if (num1.length < num2.length) {
-                num1 = "0" + num1;
-            }
-            if (num2.length < num1.length) {
-                num2 = "0" + num2;
-            }
-            //进位
-            let addOne = 0;
-            //结果数组
-            let result = [];
-            //个位数开始相加
-            for (let i = num1.length - 1; i >= 0; i--) {
-                let c1 = num1.charAt(i) - 0;
-                let c2 = num2.charAt(i) - 0;
-                let sum = c1 + c2 + addOne;
-                if (sum > 9) {
-                    result.unshift(sum - 10);
-                    addOne = 1;
-                } else {
-                    result.unshift(sum);
-                    addOne = 0;
-                }
-            }
-            if (addOne) {
-                result.unshift(addOne);
-            }
-            if (!result[0]) {
-                result.splice(0, 1);
-            }
-            return result.join("");
+        function test() {    
+            var foo = bar = 5;
         }
-        console.log(sumStrings('123456789123456789', '987654321987654321'))
-        console.log('21111'.charAt(0) - 0)
+        test();
+        console.log(bar)
     </script>
 </body>
 
