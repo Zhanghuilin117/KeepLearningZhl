@@ -134,7 +134,7 @@ for (let key in obj) {
 
 - 基于原型的执行规则
 
-  - 获取属性 xialuo. name 或执行方法 xialuo.sayhi（）时先在自身属性和方法寻找
+  - 获取属性 xialuo. name 或执行方法 xialuo.sayhi()时先在自身属性和方法寻找
   - 如果找不到则自动去 \_\_proto\_\_中查找
 
 - 原型链
